@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PHY1102 Student Registration</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a3c34, #2d5a4a, #0f172a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* COLLEGE HEADER */
+        .college-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 18px;
+        }
+
+        .logo {
+            width: 125px;
+            height: 125px;
+            object-fit: contain;
+            background: white;
+            border-radius: 20px;
+            padding: 8px;
+            display: block;
+            margin: 0 auto 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.30);
+        }
+
+        .college-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .college-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.30);
+        }
+
+        /* MODULE INFORMATION - Updated for PHY1102 */
+        .module-card {
+            background: linear-gradient(135deg, #f0fdf4, #f8fafc);
+            border-left: 6px solid #16a34a;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+
+        .module-code {
+            font-size: 13px;
+            font-weight: bold;
+            color: #16a34a;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .module-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e1b4b;
+            line-height: 1.35;
+            margin-bottom: 10px;
+        }
+
+        .module-details {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* INTRODUCTION */
+        .instruction {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 22px;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #334155;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 11px;
+            font-size: 16px;
+            outline: none;
+            background: #f8fafc;
+            transition: all 0.2s ease;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #16a34a;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+        }
+
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .row .form-group {
+            flex: 1;
+        }
+
+        /* REGISTER BUTTON - Updated for PHY1102 */
+        .register-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(22, 163, 74, 0.30);
+        }
+
+        .register-btn:disabled {
+            opacity: 0.65;
+            cursor: wait;
+            transform: none;
+        }
+
+        .status-message {
+            text-align: center;
+            margin-top: 14px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.4;
+            display: none;
+        }
+
+        .status-message.info {
+            display: block;
+            color: #334155;
+            background: #f1f5f9;
+        }
+
+        .status-message.error {
+            display: block;
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        .status-message.success {
+            display: block;
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .register-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.5;
+            margin-top: 20px;
+        }
+
+        /* SUCCESS SCREEN */
+        .success {
+            display: none;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        .success h2 {
+            color: #166534;
+            margin-bottom: 12px;
+        }
+
+        .success p {
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .another-btn {
+            margin-top: 22px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #e2e8f0;
+            color: #334155;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* MOBILE */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                align-items: flex-start;
+            }
+
+            .container {
+                margin-top: 15px;
+            }
+
+            .logo {
+                width: 105px;
+                height: 105px;
+            }
+
+            .college-header h1 {
+                font-size: 20px;
+            }
+
+            .card {
+                padding: 22px;
+                border-radius: 17px;
+            }
+
+            .module-name {
+                font-size: 17px;
+            }
+
+            .row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- COLLEGE HEADER -->
+    <div class="college-header">
+        <img
+            src="logo.png"
+            alt="Mutare Teachers' College Logo"
+            class="logo"
+            src="file:///C:/Users/HP/Desktop/semester%202%202026/phy322%20applied%20waves%20and%20atomic%20physics/logo.png"
+        >
+        <h1>MUTARE TEACHERS' COLLEGE</h1>
+        <p>Student Module Registration</p>
+    </div>
+
+    <!-- REGISTRATION CARD -->
+    <div class="card" id="registrationCard">
+
+        <!-- MODULE INFORMATION - Updated for PHY1102 -->
+        <div class="module-card">
+            <div class="module-code">PHY1102</div>
+            <div class="module-name">Mechanical Properties of Materials and Fluid Mechanics</div>
+            <div class="module-details">
+                <span class="badge">First Year</span>
+                <span class="badge">Second Semester</span>
+                <span class="badge">2026</span>
+            </div>
+        </div>
+
+        <!-- INSTRUCTIONS - Updated for PHY1102 -->
+        <p class="instruction">
+            Welcome to PHY1102. Please enter your details below to register for this module. Make sure
+            that your Student ID and phone number are correct before submitting.
+        </p>
+
+        <!-- FORM -->
+        <form id="registrationForm">
+
+            <!-- NAME -->
+            <div class="row">
+                <div class="form-group">
+                    <label for="firstName">
+                        First Name
+                        <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="Enter first name"
+                        autocomplete="given-name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="surname">
+                        Surname
+                        <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="surname"
+                        name="surname"
+                        placeholder="Enter surname"
+                        autocomplete="family-name"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- STUDENT ID -->
+            <div class="form-group">
+                <label for="studentId">
+                    Student ID
+                    <span class="required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="studentId"
+                    name="studentId"
+                    placeholder="e.g. MTC12345"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+
+            <!-- PHONE -->
+            <div class="form-group">
+                <label for="phone">
+                    Phone Number
+                    <span class="required">*</span>
+                </label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="e.g. 0771234567"
+                    autocomplete="tel"
+                    required
+                >
+            </div>
+
+            <!-- YEAR OF STUDY - Updated for PHY1102 -->
+            <div class="form-group">
+                <label for="year">
+                    Year of Study
+                    <span class="required">*</span>
+                </label>
+                <select id="year" name="year" required>
+                    <option value="">Select year</option>
+                    <option value="First Year">First Year</option>
+                </select>
+            </div>
+
+            <!-- REGISTER - Updated for PHY1102 -->
+            <button type="submit" class="register-btn" id="registerBtn">
+                REGISTER FOR PHY1102
+            </button>
+
+        </form>
+
+        <div class="footer">
+            By submitting this form, you confirm that the information provided is correct.
+        </div>
+
+    </div>
+
+    <!-- SUCCESS CARD -->
+    <div class="card success" id="successCard">
+        <div class="success-icon">✓</div>
+        <h2>Registration Successful!</h2>
+        <p>
+            Your registration for
+            <strong>PHY1102</strong>
+            has been recorded.
+        </p>
+        <p id="successStudent" style="margin-top:10px; font-weight:bold; color:#334155;"></p>
+        <p style="margin-top:10px;">
+            Mechanical Properties of Materials and Fluid Mechanics
+        </p>
+        <button class="another-btn" onclick="registerAnother()">
+            Register Another Student
+        </button>
+    </div>
+
+</div>
+
+<script>
+
+    // =========================================================
+    // PHY1102 REGISTRATION
+    // GitHub Pages -> Google Apps Script -> Google Sheets
+    // =========================================================
+    //
+    // IMPORTANT: Replace the API_URL below with YOUR Apps Script URL
+    // The Apps Script should handle both PHY322 and PHY1102 registrations
+    // by checking the "module" field in the payload
+
+    // REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT URL
+    const API_URL =
+        "https://script.google.com/macros/s/YOUR_APPS_SCRIPT_ID/exec";
+
+    const form =
+        document.getElementById("registrationForm");
+
+    const registrationCard =
+        document.getElementById("registrationCard");
+
+    const successCard =
+        document.getElementById("successCard");
+
+    const registerBtn =
+        document.getElementById("registerBtn");
+
+    const successStudent =
+        document.getElementById("successStudent");
+
+    // Status box
+    const statusMessage =
+        document.createElement("div");
+
+    statusMessage.className =
+        "status-message";
+
+    registerBtn.insertAdjacentElement(
+        "afterend",
+        statusMessage
+    );
+
+    // ---------------------------------------------------------
+    // Normalise Zimbabwean phone numbers
+    // 0771234567 -> +263771234567
+    // 263771234567 -> +263771234567
+    // +263771234567 -> +263771234567
+    // ---------------------------------------------------------
+
+    function normalisePhone(phone) {
+        let value =
+            String(phone || "")
+                .trim()
+                .replace(/[\s()-]/g, "");
+
+        if (value.startsWith("00")) {
+            value = "+" + value.substring(2);
+        }
+
+        if (value.startsWith("+263")) {
+            return value;
+        }
+
+        if (value.startsWith("263")) {
+            return "+" + value;
+        }
+
+        if (value.startsWith("0")) {
+            return "+263" + value.substring(1);
+        }
+
+        return value;
+    }
+
+    function showStatus(message, type) {
+        statusMessage.textContent = message;
+        statusMessage.className = "status-message " + type;
+    }
+
+    // ---------------------------------------------------------
+    // Ask Apps Script whether this Student ID already exists.
+    // JSONP is used for the pre-check because GitHub Pages
+    // and Apps Script are different domains.
+    // ---------------------------------------------------------
+
+    function checkStudentId(studentId) {
+        return new Promise(function(resolve, reject) {
+            const callbackName =
+                "phy1102Check_" +
+                Date.now() +
+                "_" +
+                Math.floor(Math.random() * 100000);
+
+            const script =
+                document.createElement("script");
+
+            const timeout =
+                setTimeout(function() {
+                    cleanup();
+                    reject(
+                        new Error(
+                            "The registration server did not respond."
+                        )
+                    );
+                }, 10000);
+
+            function cleanup() {
+                clearTimeout(timeout);
+                if (script.parentNode) {
+                    script.parentNode.removeChild(script);
+                }
+                try {
+                    delete window[callbackName];
+                } catch (e) {
+                    window[callbackName] = undefined;
+                }
+            }
+
+            window[callbackName] =
+                function(result) {
+                    cleanup();
+                    resolve(result);
+                };
+
+            script.onerror =
+                function() {
+                    cleanup();
+                    reject(
+                        new Error(
+                            "Could not contact the registration server."
+                        )
+                    );
+                };
+
+            // Add module parameter to check specifically for PHY1102
+            script.src =
+                API_URL +
+                "?check=1&studentId=" +
+                encodeURIComponent(studentId) +
+                "&module=PHY1102" +
+                "&callback=" +
+                encodeURIComponent(callbackName) +
+                "&_=" +
+                Date.now();
+
+            document.body.appendChild(script);
+        });
+    }
+
+    // ---------------------------------------------------------
+    // Submit registration
+    // ---------------------------------------------------------
+
+    form.addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
+
+            const studentId =
+                document.getElementById("studentId")
+                    .value
+                    .trim()
+                    .toUpperCase();
+
+            const firstName =
+                document.getElementById("firstName")
+                    .value
+                    .trim();
+
+            const surname =
+                document.getElementById("surname")
+                    .value
+                    .trim();
+
+            const phone =
+                normalisePhone(
+                    document.getElementById("phone").value
+                );
+
+            const year =
+                document.getElementById("year")
+                    .value;
+
+            // Client-side validation
+            if (
+                !firstName ||
+                !surname ||
+                !studentId ||
+                !phone ||
+                !year
+            ) {
+                showStatus(
+                    "Please complete all required fields.",
+                    "error"
+                );
+                return;
+            }
+
+            // Show the normalised number in the field.
+            document.getElementById("phone").value = phone;
+
+            registerBtn.disabled = true;
+            registerBtn.textContent = "CHECKING...";
+            showStatus("Checking your Student ID...", "info");
+
+            try {
+                // FIRST: duplicate check
+                const result = await checkStudentId(studentId);
+
+                if (result.exists) {
+                    registerBtn.disabled = false;
+                    registerBtn.textContent = "REGISTER FOR PHY1102";
+                    showStatus(
+                        "⚠️ Student ID " +
+                        studentId +
+                        " is already registered for PHY1102.",
+                        "error"
+                    );
+                    return;
+                }
+
+                // SECOND: submit the new registration
+                registerBtn.textContent = "SUBMITTING...";
+                showStatus("Saving your registration...", "info");
+
+                const payload = {
+                    firstName: firstName,
+                    surname: surname,
+                    studentId: studentId,
+                    phone: phone,
+                    year: year,
+                    module: "PHY1102",
+                    moduleName: "Mechanical Properties of Materials and Fluid Mechanics"
+                };
+
+                /*
+                 * no-cors allows the POST to be sent from
+                 * GitHub Pages to Apps Script.
+                 */
+
+                await fetch(
+                    API_URL,
+                    {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: {
+                            "Content-Type": "text/plain;charset=utf-8"
+                        },
+                        body: JSON.stringify(payload)
+                    }
+                );
+
+                console.log(
+                    "PHY1102 registration submitted:",
+                    payload
+                );
+
+                successStudent.textContent =
+                    "Student ID: " +
+                    studentId +
+                    "  •  Phone: " +
+                    phone;
+
+                registrationCard.style.display = "none";
+                successCard.style.display = "block";
+
+            } catch (error) {
+                console.error(error);
+                registerBtn.disabled = false;
+                registerBtn.textContent = "REGISTER FOR PHY1102";
+                showStatus(
+                    "We could not contact the registration server. Please check your internet connection and try again.",
+                    "error"
+                );
+            }
+        }
+    );
+
+    // ---------------------------------------------------------
+    // Start a fresh registration
+    // ---------------------------------------------------------
+
+    function registerAnother() {
+        form.reset();
+        statusMessage.textContent = "";
+        statusMessage.className = "status-message";
+        registerBtn.disabled = false;
+        registerBtn.textContent = "REGISTER FOR PHY1102";
+        successCard.style.display = "none";
+        registrationCard.style.display = "block";
+        document.getElementById("firstName").focus();
+    }
+
+</script>
+
+</body>
+
+</html>
