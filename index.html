@@ -48,7 +48,7 @@
 
     <div class="card" id="registrationCard">
         <div class="module-card">
-            <div class="module-code">PHY1102</div>
+            <div class="module-code">PHY1101</div>
             <div class="module-name">Mechanical Properties of Materials and Fluids</div>
             <div class="module-details">
                 <span class="badge">First Year</span>
@@ -111,7 +111,7 @@
 
 <script>
     // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydO9qJUAQksnmiHx4mnDlJQ2qcrkzgheLXiBsYIzLdq2ikMTo4stZRrtPvRJAUvayIIw/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-0lXmf-2K6LGwwLr2-QkzAUr1rwC41hhgK3QGlfEfj1brpe1qn9voh81AGdNv0IGh/exec";
 
     const form = document.getElementById("registrationForm");
     const registrationCard = document.getElementById("registrationCard");
@@ -129,8 +129,8 @@
             studentId: document.getElementById("studentId").value,
             phone: document.getElementById("phone").value,
             year: document.getElementById("year").value,
-            module: "PHY1102",
-            moduleName: "Physics Principles & Applications"
+            module: "PHY1101",
+            moduleName: "Mechanical Properties of Materials and Fluids"
         };
 
         fetch(SCRIPT_URL, {
@@ -143,12 +143,12 @@
             registrationCard.style.display = "none";
             successCard.style.display = "block";
             submitBtn.disabled = false;
-            submitBtn.innerText = "REGISTER FOR PHY1102";
+            submitBtn.innerText = "REGISTER FOR PHY1101";
         })
         .catch(err => {
             alert("Error submitting form. Please check network connectivity.");
             submitBtn.disabled = false;
-            submitBtn.innerText = "REGISTER FOR PHY1102";
+            submitBtn.innerText = "REGISTER FOR PHY1101";
         });
     });
 
